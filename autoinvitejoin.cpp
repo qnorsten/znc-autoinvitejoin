@@ -22,8 +22,27 @@ public:
 	virtual EModRet OnInvite(const CNick& Nick, const CString& sChan) override {
 		CIRCNetwork *pNetwork = GetNetwork();
 		if (pNetwork) {
-			/* Only autojoin channels in our config */
+				
+			// /* Only autojoin channels in our config */
+			// CChan *invChan = pNetwork->FindChan(sChan);
+			// if (invChan) {
+				// set<CChan*> sChans;
+				// sChans.insert(invChan);
+				// pNetwork->JoinChans(sChans);
+			// }
+			
 			CChan *invChan = pNetwork->FindChan(sChan);
+			
+			/* Add Channel if it do not exist already */
+			/* TODO add config option for this */
+			if (!invChan) {
+				bool addChan = pNetwork->AddChan(sChan, false);
+				if (addChan) {
+					CChan *invChan = pNetwork->FindChan(sChan);
+				}
+				
+			}
+			
 			if (invChan) {
 				set<CChan*> sChans;
 				sChans.insert(invChan);
